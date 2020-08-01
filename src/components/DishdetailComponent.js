@@ -1,5 +1,6 @@
 import React  from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 
     
@@ -22,47 +23,64 @@ import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
                 <div></div>
             );
     }
-   function RenderComments({selectedDish})
+   function RenderComments({comments})
     {
-        if(selectedDish!=null)
+        if(comments!=null)
         return(
             <div>
               <h4>Comments </h4>
               <ul className='list-unstyled'>
-                <li className='m-1 mt-4'>{selectedDish.comments[0].comment}</li>
-                <li className='m-1 mt-4'>--{selectedDish.comments[0].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(selectedDish.comments[0].date)))}</li>
-                <li className='m-1 mt-4'>{selectedDish.comments[1].comment}</li>
-                <li className='m-1 mt-4'>--{selectedDish.comments[1].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(selectedDish.comments[1].date)))}</li>
-                <li className='m-1 mt-4'>{selectedDish.comments[2].comment}</li>
-                <li className='m-1 mt-4'>--{selectedDish.comments[2].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(selectedDish.comments[2].date)))}</li>
-                <li className='m-1 mt-4'>{selectedDish.comments[3].comment}</li>
-                <li className='m-1 mt-4'>--{selectedDish.comments[3].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(selectedDish.comments[3].date)))}</li>
-                <li className='m-1 mt-4'>{selectedDish.comments[4].comment}</li>
-                <li className='m-1 mt-4'>--{selectedDish.comments[4].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(selectedDish.comments[4].date)))}</li>
+                <li className='m-1 mt-4'>{comments[0].comment}</li>
+                <li className='m-1 mt-4'>--{comments[0].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments[0].date)))}</li>
+                <li className='m-1 mt-4'>{comments[1].comment}</li>
+                <li className='m-1 mt-4'>--{comments[1].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments[1].date)))}</li>
+                <li className='m-1 mt-4'>{comments[2].comment}</li>
+                <li className='m-1 mt-4'>--{comments[2].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments[2].date)))}</li>
+                <li className='m-1 mt-4'>{comments[3].comment}</li>
+                <li className='m-1 mt-4'>--{comments[3].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments[3].date)))}</li>
+                <li className='m-1 mt-4'>{comments[4].comment}</li>
+                <li className='m-1 mt-4'>--{comments[4].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments[4].date)))}</li>
+                
             </ul>
             </div>
 
         );
         else     
           return(
-                    <div></div>
+                    <div>Haiiiiii</div>
                 );  
     }
 
     const Dishdetail=(props)=>{
     {  
+        
             return (
-                <div className="row">
-                    <div  className="col-12 col-md-5 m-1">
-                         <RenderDish dish={props.selectedDish}/>
-                      </div>
+                    <div className="container">
                     <div className="row">
-                      <div  className="col-12 col-sm-12 mt-1 ml-4">
-                      <RenderComments selectedDish={props.selectedDish}/>
-                      </div>
+                        <Breadcrumb>
+    
+                            <BreadcrumbItem><Link to="/menu">Menu</Link></BreadcrumbItem>
+                            <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
+                        </Breadcrumb>
+                        <div className="col-12">
+                            <h3>{props.dish.name}</h3>
+                            <hr />
+                        </div>                
                     </div>
-                </div>
+                    <div className="row">
+                        <div className="col-12 col-md-5 m-1">
+                            <RenderDish dish={props.dish} />
+                        </div>
+                        <div className="col-12 col-md-5 m-1">
+                            <RenderComments comments={props.comments} />
+                        </div>
+                    </div>
+                    </div>
                 );
+
+
+
+
       
     }
 }
