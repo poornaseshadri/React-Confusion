@@ -27,8 +27,7 @@ class CommentsForm extends Component
       }
 
      handleSubmit(values) {
-        console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
         // event.preventDefault();
     }
     render()
@@ -58,7 +57,7 @@ class CommentsForm extends Component
                         <Row className="form-group">
                                 <Label htmlFor="name" md={12}>Your Name</Label>
                                 <Col md={12}>
-                                    <Control.text model=".name" id="name" name="name"
+                                    <Control.text model=".author" id="author" name="author"
                                         placeholder="Your Name"
                                         className="form-control"
                                         validators={{
@@ -67,7 +66,7 @@ class CommentsForm extends Component
                                          />
                                     <Errors
                                         className="text-danger"
-                                        model=".name"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             required: 'Required ',
@@ -80,7 +79,7 @@ class CommentsForm extends Component
                             <Row className="form-group">
                                 <Label htmlFor="message" md={12}>Comment</Label>
                                 <Col md={12}>
-                                    <Control.textarea model=".message" id="message" name="message"
+                                    <Control.textarea model=".comment" id="comment" name="comment"
                                         rows="6"
                                         className="form-control" />
                                 </Col>
@@ -125,26 +124,25 @@ class CommentsForm extends Component
                 <div></div>
             );
     }
-   function RenderComments({comments})
+   function RenderComments({comments, addComment, dishId})
     {
         if(comments!=null)
         return(
             <div>
               <h4>Comments </h4>
               <ul className='list-unstyled'>
-                <li className='m-1 mt-4'>{comments[0].comment}</li>
-                <li className='m-1 mt-4'>--{comments[0].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments[0].date)))}</li>
-                <li className='m-1 mt-4'>{comments[1].comment}</li>
-                <li className='m-1 mt-4'>--{comments[1].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments[1].date)))}</li>
-                <li className='m-1 mt-4'>{comments[2].comment}</li>
-                <li className='m-1 mt-4'>--{comments[2].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments[2].date)))}</li>
-                <li className='m-1 mt-4'>{comments[3].comment}</li>
-                <li className='m-1 mt-4'>--{comments[3].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments[3].date)))}</li>
-                <li className='m-1 mt-4'>{comments[4].comment}</li>
-                <li className='m-1 mt-4'>--{comments[4].author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comments[4].date)))}</li>
-                
-            </ul>
-            <CommentsForm/>
+                  {comments.map((comment)=>{
+                      return(
+                        <li key={comment.id}>
+                         <p>{comment.comment}</p>
+                         <p>--{comment.author}, {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))} </p>   
+                        </li>
+                      );
+                  }
+                )
+    }
+             </ul>
+            <CommentsForm dishId={dishId} addComment={addComment} />
             </div>
 
         );
@@ -175,7 +173,10 @@ class CommentsForm extends Component
                             <RenderDish dish={props.dish} />
                         </div>
                         <div className="col-12 col-md-5 m-1">
-                            <RenderComments comments={props.comments} />
+                        <RenderComments comments={props.comments}
+                                        addComment={props.addComment}
+                                        dishId={props.dish.id}
+                        />
                         </div>
                     </div>
                     </div>
