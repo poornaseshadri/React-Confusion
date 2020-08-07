@@ -165,7 +165,6 @@ class CommentsForm extends Component
     }
 
     const Dishdetail=(props)=>{
-    {  
         if (props.isLoading) {
             return(
                 <div className="container">
@@ -216,7 +215,7 @@ class CommentsForm extends Component
 
 
       
-    }
+    
 }
 
 export default Dishdetail;
